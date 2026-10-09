@@ -1,11 +1,11 @@
 from .auth import (
     RegisterAPIView,
-    VerifyEmailView,
+    VerifyPhoneView,
 )
 from .product import ProductDetailView
 
 __all__ = [
     "RegisterAPIView",
-    "VerifyEmailView",
+    "VerifyPhoneView",
     "ProductDetailView",
 ]

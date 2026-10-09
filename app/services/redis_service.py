@@ -1,9 +1,9 @@
 import random
 
-from django.conf import settings
 from django.core.cache import cache
-from django.core.mail import send_mail
 from rest_framework.serializers import ValidationError
+
+from .sms import send_sms
 
 ERROR = "Kod topilmadi, muddati tugagan yoki urinishlar tugagan"
 NOT_CONFIRMED = "Avval kodni tasdiqlang yoki kod muddati tugagan"
@@ -14,12 +14,7 @@ def send_verification_code(user):
     data = {"code": code, "tries": 0}
     cache.set(f"verify:{user.id}", data, 300)     # 5 daqiqa
 
-    send_mail(
-        "Tasdiqlash kodi",
-        f"Kodingiz: {code}",
-        settings.DEFAULT_FROM_EMAIL,
-        [user.email],
-    )
+    send_sms(user.phone, code)
 
 
 def confirm_code(user, code):

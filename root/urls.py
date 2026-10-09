@@ -8,7 +8,7 @@ from rest_framework.permissions import AllowAny
 
 from app.views import (
     RegisterAPIView,
-    VerifyEmailView,
+    VerifyPhoneView,
 )
 from app.views.auth import ResendCodeView, ForgotPasswordView, ConfirmPasswordView, ResetPasswordView
 
@@ -28,7 +28,7 @@ urlpatterns = [
     path("forgot/confirm-password/", ConfirmPasswordView.as_view()),
     path("forgot/reset-password/", ResetPasswordView.as_view()),
     path("user/register/", RegisterAPIView.as_view()),
-    path("user/verify-email/", VerifyEmailView.as_view()),
+    path("user/verify-phone/", VerifyPhoneView.as_view()),
     path("user/resend-code/", ResendCodeView.as_view()),
     path("user/login/", TokenObtainPairView.as_view()),
     path("user/refresh/", TokenRefreshView.as_view()),

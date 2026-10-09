@@ -185,4 +185,8 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
+# PRODUCTION — haqiqiy SMS (Eskiz.uz)
+# DEV — kod terminalda (konsolda) chiqadi
+SMS_BACKEND = "console"
+
 

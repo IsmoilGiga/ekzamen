@@ -1,30 +1,20 @@
 from rest_framework import serializers
 
-from .models import CustomUser, Product
+from app.models import CustomUser, Product
+from app.services.phone import normalize_phone
 
-
-class UserRegisterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ["id", "email", "first_name", "password"]
-        extra_kwargs = {"password": {"write_only": True, "min_length": 8}}
-
-    def create(self, validated_data):
-        return CustomUser.objects.create_user(**validated_data)
-
-
-class VerifyEmailSerializer(serializers.Serializer):
-    pre_token = serializers.CharField()
-    code = serializers.CharField(min_length=6, max_length=6)
 
 class ForgotPasswordSerializer(serializers.Serializer):
-    email = serializers.EmailField()
+    phone = serializers.CharField()
+
+    def validate_phone(self, value):
+        return normalize_phone(value)
 
 class ConfirmPasswordSerializer(serializers.Serializer):
     pre_token = serializers.CharField()
     code = serializers.CharField(min_length=6, max_length=6)
 
-class UserMeSerializer(serializers.ModelSerializer):
+class CustomUserMeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = [
@@ -52,3 +42,27 @@ class ResetPasswordSerializer(serializers.Serializer):
                 {"confirm_password": "Parollar bir xil emas"}
             )
         return data
+
+
+class UserRegisterSerializer(serializers.ModelSerializer):
+    phone = serializers.CharField(max_length=20)   # "+998 90 123 45 67" ham sig'sin
+
+    class Meta:
+        model = CustomUser
+        fields = ["id", "phone", "first_name", "password"]
+        extra_kwargs = {"password": {"write_only": True, "min_length": 8}}
+
+    def validate_phone(self, value):
+        phone = normalize_phone(value)
+        if CustomUser.objects.filter(phone=phone).exists():
+            raise serializers.ValidationError("Bu raqam band")
+        return phone
+
+    def create(self, validated_data):
+        return CustomUser.objects.create_user(**validated_data)
+
+
+class VerifyPhoneSerializer(serializers.Serializer):
+    pre_token = serializers.CharField()
+    code = serializers.CharField(min_length=6, max_length=6)
+

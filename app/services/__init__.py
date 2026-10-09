@@ -1,5 +1,6 @@
-# Baza varianti (darsda)
-from .email_service import (
+
+
+from .phone_service import (
     send_verification_code, confirm_code, finish_code,
 )
 
