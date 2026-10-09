@@ -21,19 +21,18 @@ schema_view = get_schema_view(
     public=True,
     permission_classes=(AllowAny,),
 )
-
 urlpatterns = [
     path("", schema_view.with_ui("swagger", cache_timeout=0), name="swagger"),
     path("admin/", admin.site.urls),
-    path("forgot-password/", ForgotPasswordView.as_view()),
-    path("confirm-password/", ConfirmPasswordView.as_view()),
-    path("reset-password/", ResetPasswordView.as_view()),
-    path("register/", RegisterAPIView.as_view()),
-    path("verify-email/", VerifyEmailView.as_view()),
-    path("resend-code/", ResendCodeView.as_view()),
-    path("login/", TokenObtainPairView.as_view()),
-    path("refresh/", TokenRefreshView.as_view()),
-    path("logout/", LogoutView.as_view()),
+    path("forgot/forgot-password/", ForgotPasswordView.as_view()),
+    path("forgot/confirm-password/", ConfirmPasswordView.as_view()),
+    path("forgot/reset-password/", ResetPasswordView.as_view()),
+    path("user/register/", RegisterAPIView.as_view()),
+    path("user/verify-email/", VerifyEmailView.as_view()),
+    path("user/resend-code/", ResendCodeView.as_view()),
+    path("user/login/", TokenObtainPairView.as_view()),
+    path("user/refresh/", TokenRefreshView.as_view()),
+    path("user/logout/", LogoutView.as_view()),
 
     path("swagger/",schema_view.with_ui("swagger", cache_timeout=0),name="schema-swagger-ui",),
 ]
